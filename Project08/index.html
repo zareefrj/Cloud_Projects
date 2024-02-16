@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="mainstyle.css">
+    <title>Flowers</title>
+</head>
+<body>
+    <div class="greetings">
+        <span>A</span>
+        <span>N</span>
+        <span>Y</span>
+        <span>O</span>
+        <span>N</span>
+        <span>G</span>
+    </div>
+    <div class="description">
+        <span>ANOTHER ONE!!</span>
+    </div>
+    <form>
+        <label>Enter your name please miss:</label>
+        <input type="text" id="name">
+        <!-- set button onClick method to call function we defined passing input values as parameters -->
+        <button type="button" onclick="callAPI(document.getElementById('name').value)">CLICK CINI</button>
+    </form>
+    <script>
+        // callAPI function that takes the base and exponent numbers as parameters
+        var callAPI = (name)=>{
+            // instantiate a headers object
+            var myHeaders = new Headers();
+            // add content type header to object
+            myHeaders.append("Content-Type", "application/json");
+            // using built in JSON utility package turn object to string and store in a variable
+            var raw = JSON.stringify({"name":name});
+            // create a JSON object with parameters for API call and store in a variable
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+            // make API call with parameters and use promises to get response
+            fetch("https://jmb3o0zrke.execute-api.us-east-1.amazonaws.com/dev/", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                alert(JSON.parse(result).body);
+                window.location.href = "flower.html";})
+                
+            .catch(error => console.log('error', error));
+        }
+     
+    </script>
+</body>
+</html>
