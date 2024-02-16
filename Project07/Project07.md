@@ -1,4 +1,5 @@
 ## Project 07: Static Web Hosting on S3
+(http://zareefflower.s3-website-us-east-1.amazonaws.com/)
 
 This project explores hosting a static website directly on Amazon S3, leveraging its scalability and cost-effectiveness for simple web pages.
 
