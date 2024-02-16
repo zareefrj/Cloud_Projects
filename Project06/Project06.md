@@ -21,11 +21,23 @@ This project involved building a basic chat application using UDP sockets on sep
     * Implemented logic to listen for incoming messages from the client.
     * Upon receiving a message, processed and displayed it on the server side.
     * Sent response messages back to the client through the socket.
+   ```bash
+   touch UDPServerChat.java
+   sudo nano UDPServerChat.java
+   javac UDPServerChat.java
+   java UDPServerChat
+   ```
 
 * **Client Code:**
     * Established a UDP socket and connected to the server's IP and port.
     * Composed chat messages and sent them to the server through the socket.
     * Received response messages from the server and displayed them on the client side.
+   ```bash
+   touch UDPClientChat.java
+   sudo nano UDPClientChat.java
+   javac UDPClientChat.java
+   java UDPClientChat
+   ```
 
 * **Building and Running:**
     * Compiled the server and client code independently on respective EC2 instances.
