@@ -34,8 +34,8 @@ This list summarizes various projects exploring different aspects of AWS service
 
 **7. Project 07: Static Web Hosting on S3**
 
-*Hosted a static website on AWS using Amazon S3
+* Hosted a static website on AWS using Amazon S3
 
 **8. Project 08: AWS Valentine's Gift**
 
-*Sending Valentines Wishes with AWS Amplify and Lambda
+* Sending Valentines Wishes with AWS Amplify and Lambda
