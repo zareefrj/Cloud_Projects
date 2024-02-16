@@ -1,0 +1,61 @@
+import java.net.*;
+import java.io.*;
+
+public class UDPServerChat {
+    public static void main(String args[]) {
+        DatagramSocket aSocket = null;
+        try {
+            System.out.println("Start server...");
+            aSocket = new DatagramSocket(10101);
+            byte[] buffer = new byte[1000];
+
+            // Wait for the initial connection
+            DatagramPacket request = new DatagramPacket(buffer, buffer.length);
+            aSocket.receive(request);
+            System.out.println("Received from: " + request.getAddress().toString() + ":" + request.getPort() + " Message: " + new String(request.getData>
+
+            final DatagramSocket finalSocket = aSocket; // Create a final variable for the socket
+
+            // Send an initial message to the client
+            String initialMessage = "Welcome to the chat!";
+	    byte[] initialBuffer = initialMessage.getBytes();
+            DatagramPacket initialReply = new DatagramPacket(initialBuffer, initialBuffer.length, request.getAddress(), request.getPort());
+            finalSocket.send(initialReply);
+
+            // Create a new thread to handle client's messages
+            new Thread(() -> {
+                try {
+                    byte[] clientBuffer = new byte[1000];
+                    DatagramPacket clientMessage = new DatagramPacket(clientBuffer, clientBuffer.length);
+                    while (true) {
+                        finalSocket.receive(clientMessage);
+                        System.out.println("Client: " + new String(clientMessage.getData(), 0, clientMessage.getLength()));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+            // Handle server messages
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+InetAddress clientAddress = request.getAddress();
+            int clientPort = request.getPort();
+
+            while (true) {
+                String replyMessage = reader.readLine();
+                byte[] replyBuffer = replyMessage.getBytes();
+
+                DatagramPacket reply = new DatagramPacket(replyBuffer, replyBuffer.length, clientAddress, clientPort);
+                finalSocket.send(reply);
+            }
+
+        } catch (SocketException e) {
+            System.out.println("Socket: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("IO: " + e.getMessage());
+        } finally {
+            if (aSocket != null) aSocket.close();
+        }
+    }
+}
+

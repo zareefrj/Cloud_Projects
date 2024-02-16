@@ -1,0 +1,44 @@
+import java.net.*;
+import java.io.*;
+
+public class UDPClientChat {
+    public static void main(String args[]) {
+        DatagramSocket aSocket = null;
+        try {
+            int serverPort = 10101;
+            String ip = "172.31.36.82";
+            InetAddress aHost = InetAddress.getByName(ip);
+
+            System.out.println("Start client...");
+            aSocket = new DatagramSocket();
+            final DatagramSocket finalSocket = aSocket;
+            // Create a thread to handle incoming server messages
+            new Thread(() -> {
+                try {
+                    byte[] buffer = new byte[1000];
+                    DatagramPacket reply = new DatagramPacket(buffer, buffer.length);
+                    while (true) {finalSocket.receive(reply);
+                        System.out.println("Server: " + new String(reply.getData(), 0, reply.getLength()));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
+            // Handle user's outgoing messages
+            while (true) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                String message = reader.readLine();
+
+                DatagramPacket request = new DatagramPacket(message.getBytes(), message.length(), aHost, serverPort);
+                aSocket.send(request);
+            }
+        } catch (SocketException e) {
+            System.out.println("Socket: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("IO: " + e.getMessage());
+} finally {
+            if (aSocket != null) aSocket.close();
+        }
+    }
+}
